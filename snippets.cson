@@ -76,9 +76,19 @@
     'body': """
       'use strict';
 
-      var expect = require('chai').expect;
+      const expect = require('chai').expect;
 
       describe('$1', () => {
         $2
       });
+    """
+
+'.source.js':
+  'Require Root':
+    'prefix': 'root'
+    'body': """
+      const lib = require('path');
+      global.appRoot = path.resolve(__dirname);
+      require(appRoot + '/$1');
+      $2
     """
