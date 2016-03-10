@@ -77,6 +77,6 @@
       var expect = require('chai').expect;
 
       describe('$1', function(){
-
+        $2
       });
     """
