@@ -69,3 +69,14 @@
         return answer;
       }
     """
+
+    '.source.js':
+      'Create Spec':
+        'prefix': 'spec'
+        'body': """
+        var expect = require('chai').expect;
+
+        describe('$1', function(){
+
+        });
+        """
