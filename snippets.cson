@@ -70,13 +70,13 @@
       }
     """
 
-    '.source.js':
-      'Create Spec':
-        'prefix': 'spec'
-        'body': """
-        var expect = require('chai').expect;
+'.source.js':
+  'Create Spec':
+    'prefix': 'spec'
+    'body': """
+      var expect = require('chai').expect;
 
-        describe('$1', function(){
+      describe('$1', function(){
 
-        });
-        """
+      });
+    """
