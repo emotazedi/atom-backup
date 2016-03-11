@@ -111,10 +111,6 @@
     'prefix': 'tohaveproperty'
     'body': 'to.have.property($1);$2'
 
-  'Snippet Name':
-    'prefix': 'Snippet Trigger'
-    'body': 'Hello World!'
-
   'Blank Lambda function':
     'prefix': 'lamb'
     'body': """
