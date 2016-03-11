@@ -67,10 +67,9 @@
 
         if (isNaN(answer)) return 0;
         return answer;
-      }
+      };
     """
 
-'.source.js':
   'Create Spec':
     'prefix': 'spec'
     'body': """
@@ -83,12 +82,43 @@
       });
     """
 
-'.source.js':
   'Require Root':
     'prefix': 'root'
     'body': """
-      const lib = require('path');
+      const path = require('path');
       global.appRoot = path.resolve(__dirname);
-      require(appRoot + '/$1');
-      $2
+      const $1 = require(appRoot + '/$2');
+      $3
+    """
+
+  'BDD Expect Statement':
+    'prefix': 'exp'
+    'body': 'expect($1)$2'
+
+  'BDD To be a Statement':
+    'prefix': 'toba'
+    'body': 'to.be.a($1);$2'
+
+  'BDD to equal':
+    'prefix': 'toequal'
+    'body': 'to.eq($1);$2'
+
+  'BDD to have length':
+    'prefix': 'tohavelength'
+    'body': 'to.have.length($1);$2'
+
+  'BDD to have property':
+    'prefix': 'tohaveproperty'
+    'body': 'to.have.property($1);$2'
+
+  'Snippet Name':
+    'prefix': 'Snippet Trigger'
+    'body': 'Hello World!'
+
+  'Blank Lambda function':
+    'prefix': 'lamb'
+    'body': """
+      ($1) => {
+        $2
+      };
     """
