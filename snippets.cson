@@ -121,7 +121,7 @@
 
   'Use Strict':
     'prefix': 'str'
-    'body': 'use strict;'
+    'body': '"use strict;"'
 
   'Create contents of Gulpfile for testing':
     'prefix': 'gulp-me'
