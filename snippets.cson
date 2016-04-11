@@ -146,9 +146,9 @@
     'body': """
       "use strict";
 
-      module.exports = ($1) => {
-        function $2() {
-          $3
-        }
+      var $1 = ($2) => {
+        $3
       };
+
+      module.exports = $1;
     """
