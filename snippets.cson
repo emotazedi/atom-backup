@@ -140,3 +140,13 @@
           gulp.watch(['views/**', 'public/**', 'app.js', 'framework/**', 'test/**'], ['test']);
       });
     """
+
+  'Create Module Export Function':
+    'prefix': 'exports'
+    'body': """
+      "use strict";
+
+      module.exports = ($1) => {
+        $2
+      };
+    """
