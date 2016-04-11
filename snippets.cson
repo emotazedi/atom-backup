@@ -147,6 +147,8 @@
       "use strict";
 
       module.exports = ($1) => {
-        $2
+        function $2() {
+          $3
+        }
       };
     """
