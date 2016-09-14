@@ -207,10 +207,10 @@
         iamRoleStatements:
           - Effect: "Allow"
             Action:
-              - kinesis:{$1:"PutRecord"}
+              - kinesis:${1:"PutRecord"}
             Resource:
               Fn::GetAtt:
-                - {$2:"Name"}Stream
+                - ${2:"Name"}Stream
                 - Arn
 
       functions:
@@ -219,7 +219,7 @@
           events:
             - http:
                 path: $0
-                method: {$3:"POST"}
+                method: ${3:"POST"}
                 request:
                   template:
                     application/json: >
@@ -237,7 +237,7 @@
 
       resources:
         Resources:
-          {$2:"Name"}Stream:
+          ${2:"Name"}Stream:
             Type: AWS::Kinesis::Stream
             Properties:
               Name: $0
@@ -259,7 +259,7 @@
           ProxyMethod:
             Type: AWS::ApiGateway::Method
             Properties:
-              HttpMethod: {$3:"POST"}
+              HttpMethod: ${3:"POST"}
               AuthorizationType: NONE
               MethodResponses:
                 - StatusCode: 202
@@ -268,12 +268,12 @@
               RestApiId:
                 Ref: RestApiApigEvent
               Integration:
-                IntegrationHttpMethod: {$3:"POST"}
+                IntegrationHttpMethod: ${3:"POST"}
                 Type: AWS
-                Uri: arn:aws:apigateway:<region>:kinesis:action/{$1:"PutRecord"}
+                Uri: arn:aws:apigateway:<region>:kinesis:action/${1:"PutRecord"}
                 Credentials:
                   Fn::GetAtt:
-                    - {$2:"Name"}Stream
+                    - ${2:"Name"}Stream
                     - Arn
                 IntegrationResponses:
                   - StatusCode: 200
