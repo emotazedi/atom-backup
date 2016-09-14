@@ -195,3 +195,87 @@
         });
       };
     """
+
+'.source.yml':
+  'Kinesis Stream':
+    'prefix': 'kinesis'
+    'body': """
+      defaults:
+        stage: dev
+        region: us-east-1
+        stream-name: $0
+        iamRoleStatements:
+          - Effect: "Allow"
+            Action:
+              - kinesis:{$1:"PutRecord"}
+            Resource:
+              Fn::GetAtt:
+                - {$2:"Name"}Stream
+                - Arn
+
+      functions:
+        create:
+          handler: $0.create
+          events:
+            - http:
+                path: $0
+                method: {$3:"POST"}
+                request:
+                  template:
+                    application/json: >
+                      {
+                        "headers": {
+                          "Content-Type" : "application/x-amz-json-1.1"
+                        },
+                        "body": {
+                          "StreamName": "$0",
+                          "Data": "$util.base64Encode($input.path('$.Data'))",
+                          "PartitionKey": "$context.identity.caller",
+                          "SequenceNumberForOrdering": "$.$4"
+                        }
+                      }
+
+      resources:
+        Resources:
+          {$2:"Name"}Stream:
+            Type: AWS::Kinesis::Stream
+            Properties:
+              Name: $0
+              ShardCount: 1
+          RestApiApigEvent:
+            Type: AWS::ApiGateway::RestApi
+            Properties:
+              Name: $0-api
+          ProxyResource:
+            Type: AWS::ApiGateway::Resource
+            Properties:
+              ParentId:
+                Fn::GetAtt:
+                  - RestApiApigEvent # our default Rest API logical ID
+                  - RootResourceId
+              PathPart: payment # the endpoint in your API that is set as proxy
+              RestApiId:
+                Ref: RestApiApigEvent
+          ProxyMethod:
+            Type: AWS::ApiGateway::Method
+            Properties:
+              HttpMethod: {$3:"POST"}
+              AuthorizationType: NONE
+              MethodResponses:
+                - StatusCode: 202
+              ResourceId:
+                Ref: ProxyResource
+              RestApiId:
+                Ref: RestApiApigEvent
+              Integration:
+                IntegrationHttpMethod: {$3:"POST"}
+                Type: AWS
+                Uri: arn:aws:apigateway:<region>:kinesis:action/{$1:"PutRecord"}
+                Credentials:
+                  Fn::GetAtt:
+                    - {$2:"Name"}Stream
+                    - Arn
+                IntegrationResponses:
+                  - StatusCode: 200
+
+    """
