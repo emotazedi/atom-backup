@@ -196,9 +196,9 @@
       };
     """
 
-'.source.yml':
-  'Kinesis Stream':
-    'prefix': 'kinesis'
+'.source.yaml':
+  'Kinesis Stream for CloudFormation':
+    'prefix': 'kinesis.yml'
     'body': """
       defaults:
         stage: dev
